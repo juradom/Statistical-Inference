@@ -1,36 +1,64 @@
 ---
-title: "Simulation to Explore Inferences"
+title: 'Coursera Statistical Inference Project (Part 1): Simulation to Explore Inferences'
 author: "mjurado"
 date: "Thursday, March 12, 2015"
 output: html_document
 ---
 
-The goal of this analysis is to explore inferences in order to:
+####Overview
+The goal of this analysis is to explore inferences in order to compare the sample means versus the theoretical mean of the distribution as well as compare the sample variance versus the theoretical variance of the distribution.  In the end I will prove that the distribution is approximately normal.
 
-* compare the sample means versus the theoretical mean of the distribution
-* compare the sample variance versus the theoretical variance of the distribution
-* prove that the distribution is approximately normal
+####Given Information
 
-#### Comparing the sample mean with the theoretical mean
+We are given the following information:
+
+* There should be 40 exponentials per distribution
+* The default lamba value is .02 for all simulations
+* The theoretical mean equals 1/lambda
+* The standard deviation is also equal 1/lambda
+* There should be 1000 simulations applied 
+
+####Simulations
+#####Analysis 1: 
+
 ```{r}
-# Given information
-
+# Set given information
 n <- 40 # number of exponentials
 lambda <- .2 # rate
-theo.mean <- round(1/ lambda) # <- theoretical mean of the distribution
+theo.mean <- round(1/ lambda,3) # <- theoretical mean of the distribution
 std.dev <- theo.mean
+std.err <- std.dev/sqrt(n)
+sim.cnt.small <- 10
+sim.cnt.big <- 1000
 
-# Calculate the sample mean
-sample.mean <- round(mean(rexp(n,lambda)),3)
+# Calculation the sample mean for 10 simulations
+sample.sim.small <- replicate(sim.cnt.small, rexp(n,lambda))
+sample.mean.small <- round(mean(sample.sim.small),3)
 
+# Calculate the sample mean over 1000 simulations
+sample.sim.big <- replicate(sim.cnt.big, rexp(n,lambda))
+sample.mean.big <- round(mean(sample.sim.big),3)
 ```
-##### The theoretical mean is: `r theo.mean`
-##### The sample mean is: `r sample.mean`
 
-You can also embed plots, for example:
+##### Show the sample mean and compare it to the theoretical mean of the distribution.
+* The sample center of distribution for 10 simulations is: `r sample.mean.small `.
+* The sample center of distribution for 1000 simulations is: `r sample.mean.big `.
+* The theoretical center of distribution is: `r theo.mean`.
 
-```{r, echo=FALSE}
-plot(cars)
+*Conclusion: As you can see when the number of simulations increase the center of distribution gets closer to the theoretical center of distribution.*
+
+***********************************************************************
+
+##### Analysis 2: 
+```{r}
+sample.sd <- sd(sample.sim.big)
+sample.var <- var(sample.sim.big)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+##### Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+* The sample standard deviation is: `r sample.sd`.
+
+* The sample variance is: `r sample.var`.
+
