@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 ####Overview
-The goal of this analysis is to explore inferences in order to compare the sample means versus the theoretical mean of the distribution as well as compare the sample variance versus the theoretical variance of the distribution.  In the end I will prove that the distribution is approximately normal.
+The goal of this analysis is to explore inferences in order to compare the sample means versus the theoretical mean of the distribution as well as compare the sample variance versus the theoretical variance of the distribution.  In the end the analysis will show that the sample distribution is approximately normal.
 
 ####Given Information
 
@@ -15,7 +15,7 @@ We are given the following information:
 * There should be 40 exponentials per distribution
 * The default lamba value is .02 for all simulations
 * The theoretical mean equals 1/lambda
-* The standard deviation is also equal 1/lambda
+* The standard deviation of the theoretical mean is also equal 1/lambda
 * There should be 1000 simulations applied 
 
 ####Simulations
@@ -77,6 +77,7 @@ Conclusion:  As you can see, the greater the number of simulations, the closer t
 ***********************************************************************
 
 ##### Analysis 3: Show that the distribution is approximately normal.
+
 Conclusion: From the plot below you can see that the sample distribution is approximately normal.
 
 ```{r}
