@@ -47,7 +47,7 @@ sample.mean.big <- round(mean(sample.sim.big),3)
 * The sample center of distribution for 1000 simulations is: `r sample.mean.big `.
 * The theoretical center of distribution is: `r theo.mean`.
 
-*Conclusion: As you can see when the number of simulations increase the center of distribution gets closer to the theoretical center of distribution.*
+*Conclusion: I did two sample simulations to show the effect on the mean as more simulations occurred.  As you can see, as the number of simulations increased the center of distribution gets closer to the theoretical center of distribution.*
 
 ***********************************************************************
 
@@ -66,7 +66,7 @@ theo.var <- theo.std.dev^2
 
 ##### Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
 
-The variance of an exponential distribution is the square of the mean, therefore, we get:
+The variance of an exponential distribution is the square of the standard deviation (which happens to equal the mean) so we end up with the following:
 
 * The small sample variance is: `r sample.var.small`.
 * The large sample variance is: `r sample.var.big`.
@@ -78,19 +78,31 @@ Conclusion:  As you can see, the greater the number of simulations, the closer t
 
 ##### Analysis 3: Show that the distribution is approximately normal.
 
-Conclusion: From the plot below you can see that the sample distribution is approximately normal.
+Conclusion: From the plots below you can see that the sample with the 1000 simulations is much closer to a Normal distribution than its counterpart with only 10 simulations.
 
 ```{r}
 library(ggplot2)
-dist <- qplot(sample.sim.big, 
+library(gridExtra)
+dist10 <- qplot(sample.sim.small, 
+              geom = "density", 
+              xlim= c(min(sample.sim.small)-1,max(sample.sim.small)+1),
+              xlab = "",
+              ylab = "",
+              main="Sample With 10 Simulations vs Normal") + 
+            stat_function(fun = dnorm, 
+                     colour = "red", 
+                     args=list(mean=theo.mean, sd=theo.std.err)) 
+
+dist1000 <- qplot(sample.sim.big, 
               geom = "density", 
               xlim= c(min(sample.sim.big),max(sample.sim.big)),
               xlab = "",
               ylab = "",
-              main="Sample Distribution vs Normal Distribution")
-dist + stat_function(fun = dnorm, 
-                     colour = "red", 
-                     args=list(mean=theo.mean, sd=theo.std.err)) 
+              main="Sample With 1000 Simulations vs Normal") + 
+            stat_function(fun = dnorm, 
+                  colour = "red",  
+                  args=list(mean=theo.mean, sd=theo.std.err)) 
+grid.arrange(dist10, dist1000, ncol = 1)
 ```  
 
 

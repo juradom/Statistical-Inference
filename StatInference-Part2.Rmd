@@ -1,0 +1,30 @@
+---
+title: 'Coursera Statistical Inference Project (Part 2): Basic Inferential Data Analysis'
+author: "mjurado"
+date: "Thursday, March 12, 2015"
+output: html_document
+---
+
+####Overview
+The goal of this analysis is to analyze the ToothGrowth dataset by summarizing the data as well as comparing tooth growth by supplement type and dosage.
+
+####Analyses
+#####Load the ToothGrowth data and perform some basic exploratory data analyses 
+
+```{r}
+# Load Dataset
+library(datasets)
+data(ToothGrowth)
+
+str(ToothGrowth)
+summary(ToothGrowth)
+matrix(c(ToothGrowth$supp,ToothGrowth$dose))
+```
+The ToothGrowth dataset can be summarized by the following:
+
+* The data consists of a dataframe with 60 observations of 3 variables.
+* The three variables are tooth length, supplement type, and dosage.
+* The min, max, and mean tooth lengths are: 4.20, 33.90, and 18.81, respectively.
+* The min, max, and mean dosage was: 0.500, 2.000, and 1.167, respectively.
+* Half of the observations were given OJ and the other have Vitamin C.
+* The R help documentation also states that the supplement type consists of two levels: Vitamin C (VC) and orange juice (OJ) and that the dosage is in milligrams.
