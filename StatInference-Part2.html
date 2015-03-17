@@ -79,12 +79,14 @@ img {
 library(datasets)
 data(ToothGrowth)
 
+# structural summary
 str(ToothGrowth)</code></pre>
 <pre><code>## 'data.frame':    60 obs. of  3 variables:
 ##  $ len : num  4.2 11.5 7.3 5.8 6.4 10 11.2 11.2 5.2 7 ...
 ##  $ supp: Factor w/ 2 levels &quot;OJ&quot;,&quot;VC&quot;: 2 2 2 2 2 2 2 2 2 2 ...
 ##  $ dose: num  0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...</code></pre>
-<pre class="r"><code>summary(ToothGrowth)</code></pre>
+<pre class="r"><code># metric summary
+summary(ToothGrowth)</code></pre>
 <pre><code>##       len        supp         dose      
 ##  Min.   : 4.20   OJ:30   Min.   :0.500  
 ##  1st Qu.:13.07   VC:30   1st Qu.:0.500  
@@ -92,7 +94,8 @@ str(ToothGrowth)</code></pre>
 ##  Mean   :18.81           Mean   :1.167  
 ##  3rd Qu.:25.27           3rd Qu.:2.000  
 ##  Max.   :33.90           Max.   :2.000</code></pre>
-<pre class="r"><code>table(ToothGrowth[,2:3])</code></pre>
+<pre class="r"><code># Comparison of Supplements and Dosage
+table(ToothGrowth[,2:3])</code></pre>
 <pre><code>##     dose
 ## supp 0.5  1  2
 ##   OJ  10 10 10
@@ -108,6 +111,14 @@ str(ToothGrowth)</code></pre>
 <li>Half of the observations were given OJ and the other have Vitamin C.</li>
 <li>Each supplement type received three different dosages of 10 observations each</li>
 </ul>
+<pre class="r"><code>supp.mean = split(ToothGrowth$len,ToothGrowth$supp)
+sapply(supp.mean, mean)</code></pre>
+<pre><code>##       OJ       VC 
+## 20.66333 16.96333</code></pre>
+<pre class="r"><code>supp.mean = split(ToothGrowth$len,ToothGrowth$dose)
+sapply(supp.mean, mean)</code></pre>
+<pre><code>##    0.5      1      2 
+## 10.605 19.735 26.100</code></pre>
 </div>
 </div>
 

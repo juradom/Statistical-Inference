@@ -16,8 +16,12 @@ The goal of this analysis is to analyze the ToothGrowth dataset by summarizing t
 library(datasets)
 data(ToothGrowth)
 
+# structural summary
 str(ToothGrowth)
+# metric summary
 summary(ToothGrowth)
+
+# Comparison of Supplements and Dosage
 table(ToothGrowth[,2:3])
 ```
 
@@ -30,7 +34,13 @@ table(ToothGrowth[,2:3])
 * Half of the observations were given OJ and the other have Vitamin C.
 * Each supplement type received three different dosages of 10 observations each
 
+```{r}
+supp.mean = split(ToothGrowth$len,ToothGrowth$supp)
+sapply(supp.mean, mean)
 
+supp.mean = split(ToothGrowth$len,ToothGrowth$dose)
+sapply(supp.mean, mean)
+```
 
 
 
