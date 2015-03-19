@@ -67,14 +67,13 @@ img {
 </div>
 
 
-<div id="overview" class="section level4">
-<h4>Overview</h4>
+<hr />
+<div id="overview" class="section level3">
+<h3>Overview</h3>
 <p>The goal of this analysis is to analyze the ToothGrowth dataset by summarizing the data as well as comparing tooth growth by supplement type and dosage.</p>
-</div>
-<div id="analyses" class="section level4">
-<h4>Analyses</h4>
-<div id="load-the-toothgrowth-data-and-perform-some-basic-exploratory-data-analyses" class="section level5">
-<h5>Load the ToothGrowth data and perform some basic exploratory data analyses</h5>
+<hr />
+<div id="load-the-toothgrowth-data-and-perform-some-basic-exploratory-data-analyses" class="section level4">
+<h4><strong>Load the ToothGrowth data and perform some basic exploratory data analyses</strong></h4>
 <pre class="r"><code># Load Dataset
 library(datasets)
 data(ToothGrowth)
@@ -101,8 +100,8 @@ table(ToothGrowth[,2:3])</code></pre>
 ##   OJ  10 10 10
 ##   VC  10 10 10</code></pre>
 </div>
-<div id="from-the-illustrations-above-we-can-conclude-that" class="section level5">
-<h5>From the illustrations above, we can conclude that:</h5>
+<div id="provide-a-basic-summary-of-the-data." class="section level4">
+<h4>Provide a basic summary of the data.</h4>
 <ul>
 <li>The data consists of a dataframe with 60 observations of 3 variables.</li>
 <li>The three variables are tooth length, supplement type, and dosage.</li>
@@ -111,14 +110,104 @@ table(ToothGrowth[,2:3])</code></pre>
 <li>Half of the observations were given OJ and the other have Vitamin C.</li>
 <li>Each supplement type received three different dosages of 10 observations each</li>
 </ul>
-<pre class="r"><code>supp.mean = split(ToothGrowth$len,ToothGrowth$supp)
-sapply(supp.mean, mean)</code></pre>
-<pre><code>##       OJ       VC 
-## 20.66333 16.96333</code></pre>
-<pre class="r"><code>supp.mean = split(ToothGrowth$len,ToothGrowth$dose)
-sapply(supp.mean, mean)</code></pre>
-<pre><code>##    0.5      1      2 
-## 10.605 19.735 26.100</code></pre>
+<hr />
+</div>
+<div id="use-confidence-intervals-andor-hypothesis-tests-to-compare-tooth-growth-by-supp-and-dose." class="section level4">
+<h4><strong>Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.</strong></h4>
+<div id="supplement-confidence-interval-testing" class="section level5">
+<h5><strong>1) Supplement Confidence Interval Testing</strong></h5>
+<pre class="r"><code># Test the impact of supplement type on tooth growth
+supp.test &lt;- t.test(len ~ supp, data = ToothGrowth)
+supp.test</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  len by supp
+## t = 1.9153, df = 55.309, p-value = 0.06063
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1710156  7.5710156
+## sample estimates:
+## mean in group OJ mean in group VC 
+##         20.66333         16.96333</code></pre>
+<p><strong>Supplement Results:</strong></p>
+<p>The p-value is: 0.0606 which is greater than 5%.</p>
+<p>The 95% confidence interval is: (-0.171, 7.571) which contains 0.</p>
+<p>As a result, we cannot reject the null hypothesis which means that the supplement type does not have a significant effect on increasing tooth length.</p>
+<hr />
+</div>
+<div id="a-dosage-confidence-interval-testing-0.5---1.0" class="section level5">
+<h5><strong>2a) Dosage confidence interval testing: 0.5 - 1.0</strong></h5>
+<pre class="r"><code>tg.dose_0.5_1.0 &lt;- subset(ToothGrowth, dose %in% c(0.5,1.0))
+t.test_0.5_1.0 &lt;- t.test(len ~ dose, data = tg.dose_0.5_1.0)
+t.test_0.5_1.0</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -6.4766, df = 37.986, p-value = 1.268e-07
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -11.983781  -6.276219
+## sample estimates:
+## mean in group 0.5   mean in group 1 
+##            10.605            19.735</code></pre>
+<p><strong>Dosage 0.5-1.0 Results:</strong></p>
+<p>The p-value is: <strong>1.268300710^{-7}</strong> which is less than 5%.</p>
+<p>The 95% confidence interval is: <strong>(-11.984, -6.276)</strong> which does not contain 0.</p>
+<p>As a result, we can reject the null hypothesis. This means that the application of doses between 0.5 and 1.0 has a significant effect on increasing tooth length.</p>
+</div>
+<div id="b-dosage-confidence-interval-testing-1.0---2.0" class="section level5">
+<h5><strong>2b) Dosage confidence interval testing: 1.0 - 2.0</strong></h5>
+<pre class="r"><code>tg.dose_1.0_2.0 &lt;- subset(ToothGrowth, dose %in% c(1.0,2.0))
+t.test_1.0_2.0 &lt;- t.test(len ~ dose, data = tg.dose_1.0_2.0)
+t.test_1.0_2.0</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -4.9005, df = 37.101, p-value = 1.906e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -8.996481 -3.733519
+## sample estimates:
+## mean in group 1 mean in group 2 
+##          19.735          26.100</code></pre>
+<p><strong>Dosage 1.0-2.0 Results:</strong> The p-value is: <strong>1.906429510^{-5}</strong> which is less than 5%.</p>
+<p>The 95% confidence interval is: <strong>(-8.996, -3.734)</strong> which does not contain 0.</p>
+<p>As a result, we can reject the null hypothesis. This means that the application of doses between 1.0 and 2.0 has a significant effect on increasing tooth length.</p>
+</div>
+<div id="c-dosage-confidence-interval-testing-0.5---2.0" class="section level5">
+<h5><strong>2c) Dosage confidence interval testing: 0.5 - 2.0</strong></h5>
+<pre class="r"><code>tg.dose_0.5_2.0 &lt;- subset(ToothGrowth, dose %in% c(0.5,2.0))
+t.test_0.5_2.0 &lt;- t.test(len ~ dose, data = tg.dose_0.5_2.0)
+t.test_0.5_2.0</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -11.799, df = 36.883, p-value = 4.398e-14
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -18.15617 -12.83383
+## sample estimates:
+## mean in group 0.5   mean in group 2 
+##            10.605            26.100</code></pre>
+<p><strong>Dosage 0.5-2.0 Results:</strong></p>
+<p>The p-value is: <strong>4.39752510^{-14}</strong> which is less than 5%.</p>
+<p>The 95% confidence interval is: <strong>(-18.156, -12.834)</strong> which does not contain 0.</p>
+<p>As a result, we can reject the null hypothesis. This means that the application of doses between 0.5 and 2.0 has a significant effect on increasing tooth length.</p>
+</div>
+</div>
+<div id="state-your-conclusions-and-the-assumptions-needed-for-your-conclusion" class="section level4">
+<h4>*State your conclusions and the assumptions needed for your conclusion**</h4>
+<div id="conclusions" class="section level5">
+<h5>Conclusions:</h5>
+<ul>
+<li>The type of supplement did not have a significant effect on tooth growth.</li>
+<li></li>
+</ul>
+</div>
 </div>
 </div>
 
