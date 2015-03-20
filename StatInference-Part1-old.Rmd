@@ -1,0 +1,108 @@
+---
+title: 'Coursera Statistical Inference Project (Part 1): Simulation to Explore Inferences'
+author: "mjurado"
+date: "Thursday, March 12, 2015"
+output: pdf_document
+---
+
+####Overview
+The goal of this analysis is to explore inferences in order to compare the sample means versus the theoretical mean of the distribution as well as compare the sample variance versus the theoretical variance of the distribution.  In the end the analysis will show that the sample distribution is approximately normal.
+
+####Given Information
+
+We are given the following information:
+
+* There should be 40 exponentials per distribution
+* The default lamba value is .02 for all simulations
+* The theoretical mean equals 1/lambda
+* The standard deviation of the theoretical mean is also equal 1/lambda
+* There should be 1000 simulations applied 
+
+####Simulations
+#####Analysis 1: Mean comparisons 
+
+```{r}
+# Set given information
+n <- 40 # number of exponentials
+lambda <- .2 # rate
+theo.mean <- round(1/ lambda,3) # <- theoretical mean of the distribution
+theo.std.dev <- theo.mean
+theo.std.err <- theo.std.dev/sqrt(n)
+sim.cnt.small <- 10
+sim.cnt.big <- 1000
+
+# Calculation the sample mean for 10 simulations
+sample.sim.small = NULL
+for (i in 1 : 10) sample.sim.small[i] = mean(rexp(n,lambda))
+sample.mean.small <- round(mean(sample.sim.small),3)
+
+# Calculate the sample mean over 1000 simulations
+sample.sim.big = NULL
+for (i in 1 : 1000) sample.sim.big[i] = mean(rexp(n,lambda))
+sample.mean.big <- round(mean(sample.sim.big),3)
+```
+
+##### Show the sample mean and compare it to the theoretical mean of the distribution.
+* The sample center of distribution for 10 simulations is: `r sample.mean.small `.
+* The sample center of distribution for 1000 simulations is: `r sample.mean.big `.
+* The theoretical center of distribution is: `r theo.mean`.
+
+*Conclusion: I did two sample simulations to show the effect on the mean as more simulations occurred.  As you can see, as the number of simulations increased the center of distribution gets closer to the theoretical center of distribution.*
+
+***********************************************************************
+
+##### Analysis 2: Variance comparisons
+```{r}
+
+# Determine the big and small sample variances
+sample.var.small <- sample.mean.small^2
+sample.var.big <- sample.mean.big^2
+
+# Determine the variance of the theoretical distribution
+theo.var <- theo.std.dev^2
+
+```
+
+
+##### Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
+
+The variance of an exponential distribution is the square of the standard deviation (which happens to equal the mean) so we end up with the following:
+
+* The small sample variance is: `r sample.var.small`.
+* The large sample variance is: `r sample.var.big`.
+* The theoretical variance is: `r theo.var `.
+
+Conclusion:  As you can see, the greater the number of simulations, the closer the variances gets to the theoretical variance.
+
+***********************************************************************
+
+##### Analysis 3: Show that the distribution is approximately normal.
+
+Conclusion: From the plots below you can see that the sample with the 1000 simulations is much closer to a Normal distribution than its counterpart with only 10 simulations.
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+dist10 <- qplot(sample.sim.small, 
+              geom = "density", 
+              xlim= c(min(sample.sim.small)-1,max(sample.sim.small)+1),
+              xlab = "",
+              ylab = "",
+              main="Sample With 10 Simulations vs Normal") + 
+            stat_function(fun = dnorm, 
+                     colour = "red", 
+                     args=list(mean=theo.mean, sd=theo.std.err)) 
+
+dist1000 <- qplot(sample.sim.big, 
+              geom = "density", 
+              xlim= c(min(sample.sim.big),max(sample.sim.big)),
+              xlab = "",
+              ylab = "",
+              main="Sample With 1000 Simulations vs Normal") + 
+            stat_function(fun = dnorm, 
+                  colour = "red",  
+                  args=list(mean=theo.mean, sd=theo.std.err)) 
+grid.arrange(dist10, dist1000, ncol = 1)
+```  
+
+

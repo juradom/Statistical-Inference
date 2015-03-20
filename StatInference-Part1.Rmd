@@ -3,6 +3,7 @@ title: 'Coursera Statistical Inference Project (Part 1): Simulation to Explore I
 author: "mjurado"
 date: "Thursday, March 12, 2015"
 output: pdf_document
+geometry: margin=1.5cm
 ---
 
 ####Overview
@@ -47,7 +48,7 @@ sample.mean.big <- round(mean(sample.sim.big),3)
 * The sample center of distribution for 1000 simulations is: `r sample.mean.big `.
 * The theoretical center of distribution is: `r theo.mean`.
 
-*Conclusion: I did two sample simulations to show the effect on the mean as more simulations occurred.  As you can see, as the number of simulations increased the center of distribution gets closer to the theoretical center of distribution.*
+**Conclusion: I did two sample simulations to show the effect on the mean as more simulations occurred.  As you can see, as the number of simulations increased the center of distribution gets closer to the theoretical center of distribution.**
 
 ***********************************************************************
 
@@ -72,13 +73,12 @@ The variance of an exponential distribution is the square of the standard deviat
 * The large sample variance is: `r sample.var.big`.
 * The theoretical variance is: `r theo.var `.
 
-Conclusion:  As you can see, the greater the number of simulations, the closer the variances gets to the theoretical variance.
+**Conclusion:  As you can see, the greater the number of simulations, the closer the variances gets to the theoretical variance.**
 
 ***********************************************************************
 
 ##### Analysis 3: Show that the distribution is approximately normal.
 
-Conclusion: From the plots below you can see that the sample with the 1000 simulations is much closer to a Normal distribution than its counterpart with only 10 simulations.
 
 ```{r}
 library(ggplot2)
@@ -91,7 +91,12 @@ dist10 <- qplot(sample.sim.small,
               main="Sample With 10 Simulations vs Normal") + 
             stat_function(fun = dnorm, 
                      colour = "red", 
-                     args=list(mean=theo.mean, sd=theo.std.err)) 
+                     args=list(mean=theo.mean, sd=theo.std.err)) +
+            geom_vline(aes(xintercept=sample.mean.small, 
+                           colour="black")) +
+            geom_vline(aes(xintercept=theo.mean, 
+                           colour="red"))
+
 
 dist1000 <- qplot(sample.sim.big, 
               geom = "density", 
@@ -101,8 +106,13 @@ dist1000 <- qplot(sample.sim.big,
               main="Sample With 1000 Simulations vs Normal") + 
             stat_function(fun = dnorm, 
                   colour = "red",  
-                  args=list(mean=theo.mean, sd=theo.std.err)) 
+                  args=list(mean=theo.mean, sd=theo.std.err)) +
+            geom_vline(aes(xintercept=sample.mean.big, 
+                           colour="black")) +
+            geom_vline(aes(xintercept=theo.mean, 
+                           colour="red"))
 grid.arrange(dist10, dist1000, ncol = 1)
 ```  
 
 
+**Conclusion: From the plots below you can see that the sample with the 1000 simulations is much closer to a Normal distribution than its counterpart with only 10 simulations. You can also see that the mean for 1000 simulations is much closer to the theoretical mean than the sample with 10 simulations.**

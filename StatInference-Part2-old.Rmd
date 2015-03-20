@@ -2,7 +2,7 @@
 title: 'Coursera Statistical Inference Project (Part 2): Basic Inferential Data Analysis'
 author: "mjurado"
 date: "Thursday, March 12, 2015"
-output: html_document
+output: pdf_document
 ---
 ***********************************************************************
 ###Overview
